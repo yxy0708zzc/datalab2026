@@ -229,8 +229,6 @@ unsigned float_i2f(int x) {
             a = a >> 1;
             t = t + 1;
         }
-
-
         if (t < 23) {
             m = tem << (23 - t);
         } else {
@@ -259,7 +257,7 @@ unsigned float_i2f(int x) {
         }
 
         m = m & 0x007FFFFF;
-        res = res | ((t + 127) << 23);  // 用最新的 t 计算指数
+        res = res | ((t + 127) << 23);
         res = res | m;
         return res;
     }
