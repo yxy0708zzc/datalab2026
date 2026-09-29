@@ -344,7 +344,7 @@ unsigned floatPower2(int x) {
     if (x < -149)
         return 0;
     int res = 0;
-    if (x <= -127) {
+    if (x <= -126) {            //写127也可以，有意思
         int a = (1 << (149 + x));
         return a;
     }
