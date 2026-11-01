@@ -144,12 +144,18 @@ unsigned reverse(unsigned v) {
  *   Difficulty: 3
  */
 int logicalShift(int x, int n) {
-    int a = 0x80000000;
-    a = a >> (n);
-    a = ~a;
-    a = a << 1;
-    a = a | 1;
+    // int a = 0x80000000;
+    // a = a >> (n);
+    // a = ~a;
+    // a = a << 1;
+    // a = a | 1;
+    // x = x >> n;
+    // return x & a;
+
     x = x >> n;
+    int a = 0xffffffff << (32 + (~n));
+    a = a << 1;
+    a = ~a;
     return x & a;
 }
 
@@ -162,34 +168,30 @@ int logicalShift(int x, int n) {
  *   Difficulty: 4
  */
 int leftBitCount(int x) {
-    int front, mark, res = 0, bit;
+    int mark, res = 0, bit;
 
-    front = ((x & 0xFFFF0000) >> 16) & 0x0000FFFF;
-    mark = !(front ^ 0x0000FFFF);
+
+    mark = !((x & 0xFFFF0000) ^ 0xFFFF0000);
     bit = mark << 4;
     res = res | bit;
     x = x << bit;
 
-    front = ((x & 0xFF000000) >> 24) & 0x000000FF;
-    mark = !(front ^ 0x000000FF);
+    mark = !((x & 0xFF000000) ^ 0xFF000000);
     bit = mark << 3;
     res = res | bit;
     x = x << bit;
 
-    front = ((x & 0xF0000000) >> 28) & 0x0000000F;
-    mark = !(front ^ 0x0000000F);
+    mark = !((x & 0xF0000000) ^ 0xF0000000);
     bit = mark << 2;
     res = res | bit;
     x = x << bit;
 
-    front = ((x & 0xC0000000) >> 30) & 0x00000003;
-    mark = !(front ^ 0x00000003);
+    mark = !((x & 0xC0000000) ^ 0xC0000000);
     bit = mark << 1;
     res = res | bit;
     x = x << bit;
 
-    front = ((x & 0x80000000) >> 31) & 0x00000001;
-    mark = !(front ^ 0x00000001);
+    mark = !((x & 0x80000000) ^ 0x80000000);
     bit = mark;
     res = res | bit;
     x = x << bit;
@@ -344,7 +346,7 @@ unsigned floatPower2(int x) {
     if (x < -149)
         return 0;
     int res = 0;
-    if (x <= -126) {            //写127也可以，有意思
+    if (x <= -126) {  // 写127也可以，有意思
         int a = (1 << (149 + x));
         return a;
     }
